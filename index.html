@@ -1,4 +1,70 @@
-<!DOCTYPEhtml>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title> Dictionary </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+  }
+
+  .search-box {
+    text-align: center;
+  }
+
+  input {
+    padding: 12px;
+    width: 250px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="search-box">
+  <h2>Search</h2>
+  <input type="text" id="searchInput" placeholder="Enter something..." />
+  <button onclick="goSearch()">Go</button>
+</div>
+
+<script>
+function goSearch() {
+  let value = document.getElementById("searchInput").value;
+
+  // remove ALL spaces
+  value = value.replace(/\s+/g, "");
+
+  // optional: make lowercase
+  value = value.toLowerCase();
+
+  if (value !== "") {
+    window.location.href = "/r/" + value + ".html";
+  }
+}
+
+// allow Enter key
+document.getElementById("searchInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    goSearch();
+  }
+});
+</script>
+
+</body>
+</html>
+```
