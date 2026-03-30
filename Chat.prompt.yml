@@ -1,0 +1,9 @@
+messages:
+  - role: system
+    content: You help users understand words
+  - role: user
+    content: Poop
+model: openai/gpt-4o
+modelParameters:
+  max_tokens: 1719
+  temperature: 0.76
