@@ -8,6 +8,8 @@
 <style>
   .trending {
   height: 20px;
+  border-radius: 10px;
+  background-color: #b779e0;
   }
   .word-of-the-week {
   padding:10px;
@@ -26,7 +28,10 @@
     background-image: linear-gradient(to bottom right, #9819ff, #c073ff);
     
   }
-
+ .side {
+  display: flex;        /* Makes children horizontal */
+  gap: 5px;   
+ }
   .center { 
     display: flex;
     width: 100%;
@@ -59,8 +64,8 @@
   <input type="text" style="height: 50px;" id="searchInput" placeholder="Try asking: extraterrestrial" />
   <button style="height: 50px;" onclick="goSearch()">Learn</button>
 </div>
-<div class="center"> <p>Trending:</p> 
-<div class="trending">Add later</div>
+<div class="side"> <p>Trending:</p> 
+<div class="trending">Add this part later</div>
   
 </div>
 <div style="padding: 50px 10px;"><div class="word-of-the-week"> 
