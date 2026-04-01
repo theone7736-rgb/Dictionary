@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Definition</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #9819ff, #c073ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    width: 350px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+
+  .word {
+    font-size: 28px;
+    color: #9819ff;
+    margin-bottom: 10px;
+  }
+
+  .type {
+    color: gray;
+    font-style: italic;
+    margin-bottom: 15px;
+  }
+
+  .definition {
+    color: #333;
+    line-height: 1.5;
+  }
+
+  .back {
+    margin-top: 20px;
+    display: inline-block;
+    text-decoration: none;
+    color: #9819ff;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="word" id="word">Loading...</div>
+  <div class="type" id="type"></div>
+  <div class="definition" id="definition"></div>
+  <a href="/" class="back">← Back</a>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 🔥 YOUR Firebase config (replace this)
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+// Init Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ✅ STEP 5: Support BOTH URL formats
+let word;
+const params = new URLSearchParams(window.location.search);
+
+if (params.get("word")) {
+  word = params.get("word");
+} else {
+  word = window.location.pathname.split("/").pop();
+}
+
+// Safety cleanup
+if (word) {
+  word = word.toLowerCase().replace(/\s+/g, "");
+}
+
+// Fetch from Firestore
+async function loadWord() {
+  try {
+    const ref = doc(db, "words", word);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      const data = snap.data();
+      document.getElementById("word").textContent = word;
+      document.getElementById("type").textContent = data.type || "";
+      document.getElementById("definition").textContent = data.definition;
+    } else {
+      document.getElementById("word").textContent = "Not Found";
+      document.getElementById("definition").textContent = "This word is not in the database.";
+    }
+  } catch (err) {
+    document.getElementById("word").textContent = "Error";
+    document.getElementById("definition").textContent = "Something went wrong.";
+    console.error(err);
+  }
+}
+
+loadWord();
+</script>
+
+</body>
+</html>
